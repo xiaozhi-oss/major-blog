@@ -1,0 +1,41 @@
+# 开发环境
+server:
+  port: 8080
+
+  thymeleaf:
+    cache: false
+
+spring:
+  # 数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/major_blog?useSSL=false&amp;userUnicode=true&amp;charterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+    # Druid配置
+    druid:
+      initial-size: 5   # 初始数
+      max-active: 10    # 最大活动数
+      aop-patterns: com.xiaozhi # 监控SpringBean
+      filters: stat,wall     # 底层开启功能，stat（sql监控），wall（防火墙）
+
+      stat-view-servlet:  # 配置监控页功能
+        login-username: xiaozhi
+        login-password: Aliyun@qq.com
+        url-pattern: /druid/*
+        enabled: true
+
+      web-stat-filter:  # 监控web
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        url-pattern: /*
+
+      filter:
+        stat:   # 对上面filters里面的stat的详细配置
+          slow-sql-millis: 1000
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false

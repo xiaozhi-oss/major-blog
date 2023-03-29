@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css"
+          th:href="@{/lib/layui/dist/css/layui.css}">
+    <link rel="stylesheet" href="../static/css/icofont/icofont.min.css"
+          th:href="@{/css/icofont/icofont.min.css}">
+    <!-- 动画 -->
+    <link rel="stylesheet" href="../static/css/animate/animate.min.css"
+          th:href="@{/css/animate/animate.min.css}">
+
+    <link rel="stylesheet" href="../static/css/blog/blog-nav.css"
+          th:href="@{/css/blog/blog-nav.css}">
+    <link rel="stylesheet" href="../static/css/blog/blog-main.css"
+          th:href="@{/css/blog/blog-main.css}">
+    <link rel="stylesheet" th:href="@{/css/blog/blog-fot.css}">
+</head>
+
+<body>
+
+<div class="dui-container">
+
+</div>
+
+<!--导航栏-->
+<div th:replace="commons :: blog-nav(1)"></div>
+
+<!--主体-->
+<div class="main clear-fix">
+    <div class="layui-container">
+        <div class="row">
+            <div class="layui-panel blog-title animate__animated animate__backInLeft">
+                    <span class="layui-breadcrumb">
+                        <a href="#" th:href="@{/index}">首页</a>
+                        <a><cite>博客</cite></a>
+                        <a th:if="${label != null}"><cite th:text="${label}">java</cite></a>
+                    </span>
+            </div>
+
+            <div class="layui-col-md8 main-right ">
+                <div class="layui-panel main-content animate__animated animate__lightSpeedInLeft"
+                     th:if="${blogs.isEmpty()}">
+                    <h1 style="text-align: center">暂时还没有这个标签的博客</h1>
+                </div>
+                <div th:if="${!blogs.isEmpty()}" th:each="blog : ${blogs}"
+                     class="layui-panel main-content animate__animated animate__lightSpeedInLeft">
+                    <div class="main-top">
+                        <div class="layui-inline main-top-l ">
+                            <a href="#" th:href="@{/blog/details(id = ${blog.id})}">
+                                <img th:src="${blog.imgUrl}"
+                                     src="https://picsum.photos/id/1074/170/120" alt="">
+                            </a>
+                        </div>
+                        <div class="layui-inline main-top-r">
+                            <a href="#" target="_blank" th:href="@{/blog/details(id = ${blog.id})}">
+                                <h1 th:text="${blog.title}">这是我的第一篇博客</h1>
+                            </a>
+                            <p th:text="${blog.blogDescribe}">我的第一篇博客就是我写的第一篇</p>
+                        </div>
+                    </div>
+                    <!-- 内容底部 -->
+                    <div class="main-fot">
+                        <span class="layui-badge"
+                              th:classappend="${blog.blogType == '原创'} ? 'layui-bg-green' : 'layui-bg-orange'"
+                              th:text="${blog.blogType}">原创
+                        </span>
+                        <span>
+                                <i class="icofont-ui-timer"></i>
+                                [[${#dates.format(blog.releaseTime, 'yyyy-MM-dd HH:mm')}]]
+                        </span>
+                        <span>
+                                <i class="icofont-waiter"></i>
+                                [[${blog.author}]]
+                         </span>
+
+                        <span class="label-a">
+                                <a href="#" th:href="@{/(label = ${blog.label})}">
+                                    <i class="icofont-label"></i>
+                                    [[${blog.label}]]
+                                </a>
+                         </span>
+
+                        <div class="main-fot-l">
+                                <span>
+                                    <i class="icofont-comment"></i>
+                                    38
+                                </span>
+                            <span>
+                                    <i class="icofont-eye"></i>
+                                    1000
+                                </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 分页条 -->
+                <div id="page" class="page animate__animated animate__fadeInUpBig"></div>
+
+            </div>
+
+            <div class="layui-col-md4 clear-fix main-left animate__animated animate__lightSpeedInRight">
+                <div class="layui-panel">
+                    <div class="main-l-title">
+                            <span class="icon">
+                                <i class="icofont-label" aria-hidden></i>
+                            </span>
+                        <span class="text">
+                                标签云
+                            </span>
+                    </div>
+                    <div class="tag-cloud ">
+                        <th:block th:each="label : ${labels}">
+                            <a th:text="${label.name}" th:href="@{/(label = ${label.name})}"
+                               th:style="${label.style}"
+                               style="left: 16px; top: 1px; z-index: 3; font-size: 18px; color: rgb(237, 204, 185); padding: 6px;">
+                                java
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- 底部 -->
+<div th:replace="commons :: blog-footer"></div>
+
+<!-- 引入 layui.js -->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"
+        th:src="@{/lib/layui/dist/layui.js}"></script>
+<!-- jquery -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"
+        th:src="@{/js/jquery-3.6.0.min.js}"></script>
+
+<script th:inline="javascript">
+
+    var scheme = /*[[${#request.getScheme()}]]*/ '';
+    var host = /*[[${#request.getHeader('Host')}]]*/ '';
+    var serverUrl = scheme + "://" + host;    // 动态获取
+
+    function bankLink() {
+        layer.msg("功能暂不开启，等有时间再写，哈哈", {
+            icon: 2,
+            time: 2000
+        });
+    }
+
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'laypage'], function () {
+        msg = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? layer.msg(msg, {
+            icon: 6,
+            time: 2000
+        }) : "";
+
+        var element = layui.element,
+            laypage = layui.laypage;
+
+        var count = /*[[${count}]]*/ 6;
+        var current = /*[[${current}]]*/ 1;
+        // 第一次请求加载全部数据
+        laypage.render({
+            elem: 'page'
+            , count: count //数据总数，从服务端得到
+            , curr: current
+            , limit: 5
+            , jump: function (obj, first) {
+                // 发请求给服务器
+                if (!first) {
+                    window.location = serverUrl + "/index?page=" + obj.curr + "&size=" + obj.limit;
+                }
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

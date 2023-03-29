@@ -1,0 +1,23 @@
+/* 底部 */
+.blog-footer {
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: white;
+    padding: 5px 0;
+    color: #bbb;
+    position: fixed;
+    bottom: 0;
+}
+
+.blog-footer a {
+    color: #bbb;
+}
+.blog-footer a:hover {
+    color: #009688;
+}
+
+.blog-footer span{
+    margin: 0 5px;
+}

@@ -1,0 +1,56 @@
+body {
+    background-color: #f9f9f9;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.header {
+    height: 60px;
+    /*background-color: #393D49;*/
+    background-color: white;
+}
+
+.layui-nav,.layui-nav-item a{
+    background-color: white !important;
+    color: black !important;
+}
+
+.layui-nav a{
+    font-size: 16px;
+}
+
+.header .logo {
+    margin-top: 14px !important;
+}
+
+.header h1 {
+    font-size: 30px !important;
+    color: #009688;
+    font-family: "楷体" !important;
+    text-align: center;
+    margin: 0 0 !important;
+    padding: 0 0 !important;
+    z-index: 10000;
+}
+
+.header .header-r {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.userInfo a {
+    color: rgba(255, 255, 255, .7);
+}
+
+
+@media screen and (max-width: 840px) {
+    body {
+        display: none;
+    }
+}
+
+
+
+

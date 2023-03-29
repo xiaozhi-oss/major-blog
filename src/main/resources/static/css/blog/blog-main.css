@@ -1,0 +1,181 @@
+.clear-fix::before,
+.clear-fix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* 首页内容 */
+.main {
+    min-height: 100%;
+    margin-top: 15px;
+    margin-bottom: 60px;
+}
+
+.main-right{
+    padding-right: 12px;
+}
+
+.main-content {
+    padding: 13px;
+    margin-bottom: 15px;
+    border-left: 5px solid white;
+    border-right: 5px solid white;
+    border-radius: 6px;
+}
+
+.main-content:hover {
+    border-left: 5px solid #009688;
+    border-right: 5px solid #009688;
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+}
+
+
+.main-content:last-child {
+    margin-bottom: 20px;
+}
+
+.main-top {
+    margin-bottom: 5px;
+}
+
+.main-top-l {
+    width: 25%;
+}
+
+.main-fot span{
+    margin-right: 5px;
+}
+.main-fot span a{
+    color: #009688;
+}
+.main-fot span a:hover{
+    color: #666;
+}
+
+.main-top-r {
+    width: 60%;
+}
+
+.main-fot-l {
+    float: right;
+}
+
+.blog-type {
+    margin-right: 15px;
+}
+.main-left{
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+.main-l-title{
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+.main-left .icon i{
+    font-size: 20px;
+    margin-right: 5px;
+    color: #01aaed;
+}
+.main-left .text{
+    font-size: 20px;
+    margin-right: 5px;
+    color: #01aaed;
+}
+.tag-cloud {
+    padding: 20px;
+}
+
+.page {
+    clear: both;
+    text-align: center;
+}
+
+
+/* 博客内容 */
+.blog-title {
+    margin-top: 12px;
+    padding: 10px 10px 10px 20px;
+    border-left: 5px solid #009688;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.blog-content {
+    padding: 40px;
+    box-shadow: 8px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px 8px 0px 0px;
+}
+.blog-content h1 {
+    text-align: center;
+}
+
+/* 内容头部信息 */
+.blog-con-title {
+    margin-bottom: 30px;
+}
+.mr-20 {
+    margin-right: 20px;
+}
+
+
+.blog-content-fot {
+    height: 166px;
+    background-color: #F0FFF1;
+    border-radius: 0px 0px 8px 8px;
+    box-shadow: 8px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;/*垂直居中*/
+    padding: 0px 0px 0px 40px;
+}
+.blog-content-fot li{
+    list-style: outside;
+    color: goldenrod;
+    font-weight: 500;
+    margin-right: 140px;
+}
+
+.QRcode img{
+    margin-left: 150px;
+    width: 120px;
+    height: 120px;
+}
+
+/* 滚动平滑 */
+.toolbar {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+}
+.toolbar button {
+    margin-top: 10px;
+}
+.toolbar i{
+    font-size: 45px;
+}
+
+/* 目录 */
+.toc-container {
+    display: none;
+    position: fixed;
+    top: 100px;
+    background-color: #fff;
+    padding: 7px;
+    width: 250px;
+}
+
+.js-toc p{
+    color: black !important;
+}
+.blog-content-fot {
+    margin-bottom: 70px;
+}
+
+
+

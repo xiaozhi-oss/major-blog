@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaozhi.mapper.BlogMapper">
+
+    <select id="getBlogData" resultMap="blog">
+        select * from t_blog limit #{page}, #{limit}
+    </select>
+    <resultMap id="blog" type="blog">
+        <association property="labelVo" column="lid" javaType="labelVo" select="getLabel"/>
+    </resultMap>
+    <select id="getLabel" resultType="labelVo">
+        select `name`,`style` from t_label where id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>标签管理</title>
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css" th:href="@{/lib/layui/dist/css/layui.css}">
+    <link rel="stylesheet" href="../css/icofont/icofont.min.css">
+    <link rel="stylesheet" href="../css/blog/admin/admin.css">
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+
+        <!--导航栏-->
+        <div th:replace="commons :: admin-nav(3)"></div>
+
+
+        <!-- 内容主体区域 -->
+        <div class="layui-body blog-edit">
+            <table id="table" lay-filter="table"></table>
+
+            <!-- 添加操作 -->
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                  <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+
+            <!-- 编辑和删除操作 -->
+            <script type="text/html" id="operation">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+              </script>
+        </div>
+
+    </div>
+
+
+
+
+    <!--jquery-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"
+            th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <script th:inline="javascript">
+        var url = 'http://' + window.location.host + "/admin/label/";
+
+        //JS 
+        layui.use(['element', 'table', 'form'], function () {
+            var element = layui.element
+                , table = layui.table
+                , form = layui.form;
+
+            table.render({
+                elem: '#table'
+                , url: '/admin/label/data' //数据接口
+                , page: { limit: 13 }
+                , loading: true
+                , align: 'center'
+                , toolbar: '#toolbarDemo'
+                ,response: {
+                    statusCode: 200         // 成功状态码
+                    , msgName: 'message'    // 消息名
+                }
+                , cols: [
+                    [ //表头
+                      { field: 'name', title: '标签名'}
+                    , { field: 'style', title: '样式' }
+                    , { field: 'createTime', title: '创建时间' }
+                    , { field: 'updateTime', title: '更新时间' }
+                    , { field: 'operation', title: '操作', templet: '#operation' }
+                    ]
+                ]
+            });
+
+            // 监听顶部添加按钮
+            table.on('toolbar(table)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                if (obj.event == 'add') {
+
+                    // 添加操作
+                    window.location = url + "edit?type=add";
+                }
+            });
+
+            //监听行工具事件
+            table.on('tool(table)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    // 删除操作
+                    layer.confirm('真的删除行么', function (index) {
+                        // 得到id
+                        var id = obj.data.id;
+                        $.getJSON(url + "delete","id=" + id,function (data) {
+                            if (data.code == 200) {
+                                obj.del();
+                                layer.msg("删除成功", {
+                                    icon: 1,
+                                    time: 2000
+                                });
+                                layer.close(index);
+                            } else {
+                                layer.msg("删除失败", {
+                                    icon: 2,
+                                    time: 2000
+                                })
+                            }
+                        });
+                    });
+                } else if (obj.event === 'edit') {
+                    // 得到id
+                    var id = obj.data.id;
+                    // 编辑操作，跳转到编辑页面
+                    window.location = url + "edit?type=update&id=" + id;
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

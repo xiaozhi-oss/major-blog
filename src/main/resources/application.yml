@@ -1,0 +1,19 @@
+# 激活环境
+spring:
+  profiles:
+    active: pro
+
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:mybatis/mapper/*.xml  # sql文件映射位置
+  type-aliases-package: com.xiaozhi.entity          # 类别名
+  configuration:
+    map-underscore-to-camel-case: true              # 开启驼峰命名
+
+# 设置日志
+logging:
+  level:
+    root: info
+    com.lrm: debug
+  file:
+    name: log/blog.log

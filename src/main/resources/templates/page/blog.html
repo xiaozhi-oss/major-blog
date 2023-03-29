@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客详情</title>
+    <!--animate动画库-->
+    <link rel="stylesheet" href="../css/animate/animate.min.css"
+          th:href="@{/css/animate/animate.min.css}">
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css"
+          th:href="@{/lib/layui/dist/css/layui.css}">
+    <!-- 图标 -->
+    <link rel="stylesheet" href="../css/icofont/icofont.min.css"
+          th:href="@{/css/icofont/icofont.min.css}">
+    <!-- 排版 -->
+    <link rel="stylesheet" href="../css/typo.css-master/typo.css"
+          th:href="@{/css/typo.css-master/typo.css}">
+    <!-- 代码块样式 -->
+    <link rel="stylesheet" href="../css/prism/prism.css"
+          th:href="@{/css/prism/prism.css}">
+    <!-- 生成目录 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.css"
+          th:src="@{/css/tocbot.css}">
+    <!-- 导航 -->
+    <link rel="stylesheet" href="../css/blog/blog-nav.css"
+          th:href="@{/css/blog/blog-nav.css}">
+    <!-- 主体 -->
+    <link rel="stylesheet" href="../css/blog/blog-main.css"
+          th:href="@{/css/blog/blog-main.css}">
+    <!-- 页脚 -->
+    <link rel="stylesheet" th:href="@{/css/blog/blog-fot.css}">
+</head>
+
+<body>
+
+<!--导航栏-->
+<div th:replace="commons :: blog-nav(1)"></div>
+
+<!-- 博客详情页主体 -->
+<div id="waypoint" class="blog-main">
+    <div class="layui-container">
+
+        <div class="layui-row">
+            <div class="layui-col-md10 layui-col-md-offset1 layui-col-xs12">
+                <!-- 头部栏 -->
+                <div class="layui-panel blog-title animate__animated animate__backInLeft">
+                        <span class="layui-breadcrumb">
+                            <a th:href="@{/index}">首页</a>
+                            <a><cite>正文</cite></a>
+                        </span>
+                </div>
+                
+                <!-- 博客详细内容 -->
+                <div class="animate__animated animate__slideInUp">
+                    <div class="layui-panel blog-content">
+                        <div class="blog-con-title">
+                                <span class="mr-20">
+                                    <i class="icofont-ui-timer"></i>
+                                    [[${#dates.format(blog.releaseTime, 'yyyy-MM-dd HH:mm')}]]
+                                </span>
+                            <span class="mr-20">
+                                    <i class="icofont-waiter"></i>
+                                    [[${blog.author}]]
+                                </span>
+
+                            <span>
+                                    <a href="#" th:href="@{/blog/label(name=${blog.label})}">
+                                        <i class="icofont-label"></i>
+                                        [[${blog.label}]]
+                                    </a>
+                                </span>
+
+                            <div class="main-fot-l">
+                                <span class="layui-badge" th:classappend="${blog.blogType == '原创'} ? 'layui-bg-green' : 'layui-bg-orange'" th:text="${blog.blogType}">原创</span>
+                            </div>
+                            <!-- 分割线 -->
+                            <hr class="layui-border-green">
+                            <div id="center" class="typo typo-selection js-toc-content"
+                                 th:utext="${blog.content}"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 博客声明信息 -->
+                <div th:if="${blog.reprint == 'on'}" class="blog-content-fot layui-panel animate__animated animate__fadeInUpBig">
+                    <div class="layui-row">
+                        <div class="layui-col-md10">
+                            <ol class="list">
+                                <li>作者：小智（联系作者）</li>
+                                <li>发表时间：[[${#dates.format(blog.releaseTime, 'yyyy-MM-dd HH:mm')}]]</li>
+                                <li>版权声明：自由转载</li>
+                            </ol>
+                        </div>
+                        <div class="layui-col-md2">
+                            <div class="QRcode">
+                                <img src="../img/QRcode.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- 博客评论，暂时不做 -->
+
+
+        </div>
+    </div>
+</div>
+<!--滑动按钮-->
+<div id="toolbar" class="toolbar" style="z-index: 9999">
+    <ul>
+        <li>
+            <button id="toTop-button" class="layui-btn layui-btn-radius">
+                <i class="icofont-circled-up"></i>
+            </button>
+        </li>
+        <li>
+            <button id="toBottom-button" class="layui-btn layui-btn-radius">
+                <i class="icofont-circled-down"></i>
+            </button>
+        </li>
+    </ul>
+</div>
+
+<!-- 生成目录 -->
+<div class="toc-container layui-hide-xs">
+    <!--生成的目录-->
+    <ol class="js-toc">
+
+    </ol>
+</div>
+
+<!-- 底部 -->
+<div th:replace="commons :: blog-footer"></div>
+
+
+<!-- 引入 layui.js -->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"
+        th:src="@{/lib/layui/dist/layui.js}"></script>
+<!-- jquery -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"
+        th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<!-- 生成目录插件 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"
+        th:src="@{/js/tocbot.min.js}"></script>
+<!-- 代码块 -->
+<script src="../js/prism/prism.js" th:src="@{/js/prism/prism.js}"></script>
+<!-- 平滑滚动 -->
+<script src="../js/jquery.scrollTo-master/jquery.scrollTo.js"
+        th:src="@{/js/jquery.scrollTo-master/jquery.scrollTo.js}"></script>
+<!-- 滚动侧贞 -->
+<script src="../js/waypoints/lib/jquery.waypoints.min.js"
+        th:src="@{/js/waypoints/lib/jquery.waypoints.min.js}"></script>
+
+<script th:inline="javascript">
+    var serverUrl = 'http://' + window.location.host
+
+    function bankLink() {
+        layer.msg("功能暂不开启，等有时间再写，哈哈", {
+            icon: 2
+        });
+    }
+
+    // 注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element
+            , layer = layui.layer;
+    });
+
+
+    // 平滑滚动
+    $('#toTop-button').click(function () {
+        // 第一个参数表示滑动到那个位置，第二个参数是滑动的速度
+        $(window).scrollTo(0, 500);
+    });
+    $('#toBottom-button').click(function () {
+        $(window).scrollTo(10000000000, 500);
+    });
+
+    // 初始化目录生成插件
+    tocbot.init({
+        // 你要把你的目录初始化那个区域
+        tocSelector: '.js-toc',
+        // 生成的内容在哪
+        contentSelector: '.js-toc-content',
+        // 标题的级别
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true
+    });
+
+
+    // 滚动侦测
+    var waypoint = new Waypoint({
+        element: document.getElementById('waypoint'),
+        handler: function (direction) {
+            if (direction == 'down') {
+                $('.toc-container').show();
+                $('#toolbar').show();
+            } else {
+                $('.toc-container').hide(350);
+                $('#toolbar').hide(350);
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

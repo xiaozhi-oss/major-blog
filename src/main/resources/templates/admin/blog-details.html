@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>博客管理</title>
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css" th:href="@{/lib/layui/dist/css/layui.css}">
+    <link rel="stylesheet" href="../css/icofont/icofont.min.css" th:href="@{/css/icofont/icofont.min.css}">
+    <link rel="stylesheet" href="../css/blog/admin/admin.css" th:href="@{/css/blog/admin/admin.css}">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+
+    <!--导航栏-->
+    <div th:replace="commons :: admin-nav(2)"></div>
+
+
+    <!-- 内容主体区域 -->
+    <div class="layui-body blog-edit">
+        <table id="table" lay-filter="table"></table>
+
+        <script type="text/html" id="switchRelease">
+            <input type="checkbox" name="release" value="{{d.id}}" lay-skin="switch" lay-text="发布|下线"
+                   lay-filter="option"  {{ d.isRelease == 'on' ? 'checked' : '' }}>
+        </script>
+        <script type="text/html" id="switchFunction">
+            <input type="checkbox" name="reprint" value="{{d.id}}" lay-skin="switch" lay-text="转载|转载"
+                   lay-filter="option" {{ d.reprint == 'on' ? 'checked' : '' }}>
+            <input type="checkbox" name="recommend" value="{{d.id}}" lay-skin="switch" lay-text="推荐|推荐"
+                   lay-filter="option" {{ d.recommend == 'on' ? 'checked' : '' }}>
+            <input type="checkbox" name="appreciate" value="{{d.id}}" lay-skin="switch" lay-text="赞赏|赞赏"
+                   lay-filter="option" {{ d.appreciate == 'on' ? 'checked' : '' }}>
+            <input type="checkbox" name="comment" value="{{d.id}}" lay-skin="switch" lay-text="评论|评论"
+                   lay-filter="option" {{ d.comment == 'on' ? 'checked' : '' }}>
+        </script>
+
+        <!-- 添加操作 -->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+            </div>
+        </script>
+
+        <!-- 编辑和删除操作 -->
+        <script type="text/html" id="operation">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
+
+
+    </div>
+
+
+</div>
+<!--jquery-->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"
+        th:src="@{/js/jquery-3.6.0.min.js}"></script>
+<!-- 引入 layui.js -->
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"
+        th:src="@{/lib/layui/dist/layui.js}"></script>
+<script th:inline="javascript">
+    var url = 'http://' + window.location.host + "/admin/blog/";
+
+    //JS
+    layui.use(['element', 'table', 'layer', 'form'], function () {
+        var element = layui.element
+            , table = layui.table
+            , form = layui.form
+            , layer = layui.layer;
+
+        table.render({
+            elem: '#table'
+            , url: '/admin/blog/data' //数据接口
+            , page: {limit: 13}
+            , loading: true
+            , align: 'center'
+            , toolbar: '#toolbarDemo'
+            , response: {
+                statusCode: 200         // 成功状态码
+                , msgName: 'message'    // 消息名
+            }
+            , cols: [
+                [ //表头
+                      {field: 'blogType', title: '类型', width: 60}
+                    , {field: 'author', title: '作者', width: 70}
+                    , {field: 'title', title: '标题'}
+                    , {field: 'blogDescribe', title: '描述'}
+                    , {field: 'label', title: '标签', width: 100}
+                    , {field: 'imgUrl', title: '首图url'}
+                    , {field: 'function', title: '功能', width: 300,  templet: '#switchFunction', unresize: true}
+                    , {field: 'release', title: '发布', width: 95,  templet: '#switchRelease', unresize: true}
+                    , {field: 'operation', title: '操作', width: 120, templet: '#operation'}
+                ]
+            ]
+        });
+
+        // 发送ajax请求
+        function ajaxSend(requestUrl, param) {
+            $.getJSON(requestUrl, param, function (data) {
+                if (data.code == 200) {
+                    layer.msg(data.message, {
+                        icon: 1,
+                        time: 1200
+                    });
+                    return 200;
+                } else {
+                    layer.msg(data.message, {
+                        icon: 2,
+                        time: 1200
+                    })
+                }
+            });
+        }
+
+        // 监听顶部添加按钮
+        table.on('toolbar(table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            if (obj.event == 'add') {
+                // 添加操作
+                window.location = url + "edit";
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                // 删除操作
+                layer.confirm('真的删除行么', function (index) {
+                    // 得到id
+                    var deleteUrl = url + "delete";
+                    var param = "id=" + data.id;
+                    $.getJSON(deleteUrl, param, function (data) {
+                        if (data.code == 200) {
+                            layer.msg(data.message, {
+                                icon: 1,
+                                time: 1200
+                            });
+                            obj.del();
+                        } else {
+                            layer.msg(data.message, {
+                                icon: 2,
+                                time: 1200
+                            })
+                        }
+                    });
+
+                });
+            } else if (obj.event === 'edit') {
+                // 得到id
+                var id = obj.data.id;
+                // 编辑操作，跳转到编辑页面
+                window.location = url + "edit?type=update&id=" + id;
+            }
+        });
+
+
+        // 监听发布操作
+        form.on('switch(option)', function (obj) {
+            var requestUrl = url + "option";
+            if (obj.elem.checked) {
+                // 向服务器发请求，请求成功
+                param = "id=" + this.value + "&option=" + this.name + "&type=on";
+
+            } else {
+                param = "id=" + this.value + "&option=" + this.name + "&type=off";
+            }
+            ajaxSend(requestUrl, param);
+        });
+
+
+    });
+</script>
+</body>
+</html>

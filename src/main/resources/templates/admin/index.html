@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css" th:href="@{/lib/layui/dist/css/layui.css}">
+    <link rel="stylesheet" href="../css/icofont/icofont.min.css" th:href="@{/css/icofont/icofont.min.css}">
+    <link rel="stylesheet" href="../css/blog/admin/admin.css" th:href="@{/css/blog/admin/admin.css}">
+
+</head>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+
+        <!--导航栏-->
+        <div th:replace="commons :: admin-nav(1)"></div>
+
+
+        <!-- 内容主体区域 -->
+        <div class="layui-body admin-body">
+            <!-- 顶部信息栏 -->
+            <div class="layui-panel top-box">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md3">
+                        <div class="layui-panel layui-bg-cyan">
+                            <div class="panel-body">
+                                <div class="panel-title">
+                                    <h5>博客统计</h5>
+                                </div>
+                                <div class="panel-content">
+                                    <h1 th:text="${blog}">1234</h1>
+                                    <div>
+                                        <small>当前博客总记录数</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-panel layui-bg-blue">
+                            <div class="panel-body">
+                                <div class="panel-title">
+                                    <h5>标签统计</h5>
+                                </div>
+                                <div class="panel-content">
+                                    <h1 th:text="${label}">1234</h1>
+                                    <div>
+                                        <small>当前标签总记录数</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-panel layui-bg-green">
+                            <div class="panel-body">
+                                <div class="panel-title">
+                                    <h5>评论统计</h5>
+                                </div>
+                                <div class="panel-content">
+                                    <h1>1244</h1>
+                                    <div>
+                                        <small>当前评论总记录数</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-panel layui-bg-orange">
+                            <div class="panel-body">
+                                <div class="panel-title">
+                                    <h5>浏览统计</h5>
+                                </div>
+                                <div class="panel-content">
+                                    <h1>23403</h1>
+                                    <div>
+                                        <small>当前浏览数总记录数</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中间内容 -->
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="index-middle">
+                        <p>
+                            我深怕自己本非美玉，故而不敢加以刻苦琢磨，
+                        </p>
+                        <p>
+                            却又半信自己是块美玉，故又不肯庸庸碌碌，与瓦砾为伍。
+                        </p>
+                        <p>
+                            我常卖弄什么“无所作为，则人生太长；若有所为，则人生太短”的格言
+                        </p>
+                        <p>
+                            其实我哪有什么远大的志向
+                        </p>
+                        <p>
+                            无非害怕暴露自己的才华不足之卑劣的恐惧，和不肯刻苦用功的无耻怠惰而已
+                        </p>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <ul class="layui-timeline">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">8月16日</h3>
+                                <p>杜甫的思想核心是儒家的仁政思想，他有“<em>致君尧舜上，再使风俗淳</em>”的宏伟抱负。个人最爱的名篇有：</p>
+                                <ul>
+                                    <li>《登高》</li>
+                                    <li>《茅屋为秋风所破歌》</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">8月15日</h3>
+                                <p>
+                                    中国人民抗日战争胜利72周年
+                                    <br>常常在想，尽管对这个国家有这样那样的抱怨，但我们的确生在了最好的时代
+                                    <br>铭记、感恩
+                                    <br>所有为中华民族浴血奋战的英雄将士
+                                    <br>永垂不朽
+                                </p>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title">过去</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- 
+        <div class="layui-footer">
+            底部固定区域
+        </div> -->
+    </div>
+
+
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.6.8/dist/layui.js"
+            th:src="@{/lib/layui/dist/layui.js}"></script>
+    <script th:inline="javascript">
+        //JS 
+        layui.use('element', function () {
+            var element = layui.element;
+        });
+    </script>
+</body>
+
+</html>
